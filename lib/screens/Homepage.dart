@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utilities/constants.dart';
 import '../services/Networking.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 final String apikey = "k_zs214rb2";
 
@@ -70,13 +71,10 @@ class _BodyState extends State<Body> {
                         for (var item in results) {
                           var getrating = GetMovieDta(
                               url:
-                                  "https://imdb-api.com/en/API/Ratings/k_zs214rb2/${item['id']}");
+                                  "https://imdb-api.com/en/API/Ratings/k_qn7996fq/${item['id']}");
                           await getrating.getData().then((value) {
                             setState(() {
-                              if (!(value['imDb'] == null)) {
-                                imDb.add(value['imDb'].toString());
-                              }
-                              imDb.add("0.0");
+                              imDb.add(value['imDb'].toString());
                             });
                           });
                         }
@@ -90,9 +88,13 @@ class _BodyState extends State<Body> {
               ),
             ),
             Expanded(
-              flex: 4,
-              child: ListView(children: allMovies(results.length)),
-            )
+                flex: 4,
+                child: (results.length == 0)
+                    ? SpinKitRing(
+                        color: Colors.black,
+                        size: 50,
+                      )
+                    : ListView(children: allMovies(results.length)))
           ],
         ),
       ),
