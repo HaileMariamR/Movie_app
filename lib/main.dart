@@ -13,6 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Movie App",
+        theme: ThemeData(
+          backgroundColor: Colors.white,
+        ),
         home: Homepage());
   }
 }
