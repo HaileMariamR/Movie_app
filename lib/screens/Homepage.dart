@@ -28,6 +28,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  final myController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,21 +37,46 @@ class _BodyState extends State<Body> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Expanded(
-              child: TextField(),
+              child: TextField(
+                controller: myController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                    ),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        print(myController.text);
+                      },
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
+                    ),
+                    hintText: "Search for movies"),
+              ),
               flex: 1,
             ),
           ),
-          Expanded(
-              flex: 4,
-              child: ListView(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.h_mobiledata),
-                  )
-                ],
-              ))
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: Expanded(
+                flex: 4,
+                child: ListView(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      child: Row(
+                        children: [
+                          
+                          
+                        ],
+                      ),
+                    ))
+                  ],
+                )),
+          )
         ],
       ),
     );
