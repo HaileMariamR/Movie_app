@@ -32,13 +32,13 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: Expanded(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 1,
               child: TextField(
                 controller: myController,
                 decoration: InputDecoration(
@@ -56,28 +56,74 @@ class _BodyState extends State<Body> {
                     ),
                     hintText: "Search for movies"),
               ),
-              flex: 1,
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: Expanded(
-                flex: 4,
-                child: ListView(
-                  children: [
-                    Expanded(
-                        child: Container(
-                      child: Row(
-                        children: [
-                          
-                          
-                        ],
-                      ),
-                    ))
-                  ],
-                )),
-          )
-        ],
+            Expanded(
+              flex: 4,
+              child: ListView(
+                children: [
+                  Card(
+                    shadowColor: Colors.black87,
+                    elevation: 4,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Image.network(
+                              'https://i.pinimg.com/236x/94/ec/e7/94ece7f1db85990fa144d79533c673bb.jpg',
+                              height: 150.0,
+                              width: 100.0,
+                              scale: 1,
+                            )),
+                        Expanded(
+                            flex: 2,
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Movie title",
+                                    style: kMovieTitlestyle,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Subtitle",
+                                    style: kMovieTypeStyle,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 10.0),
+                                    child: Container(
+                                      width: 120.0,
+                                      height: 30.0,
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "rating",
+                                          style: KmovieratingStyle,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
