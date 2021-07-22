@@ -60,7 +60,7 @@ class _BodyState extends State<Body> {
                         print(myController.text);
                         var moviedata = GetMovieDta(
                             url:
-                                "https://imdb-api.com/en/API/SearchMovie/k_qn7996fq/Inception%202010");
+                                "https://imdb-api.com/en/API/SearchMovie/k_qn7996fq/${myController.text}");
                         await moviedata.getData().then((value) {
                           setState(() {
                             results = value['results'];
