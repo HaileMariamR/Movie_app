@@ -61,69 +61,84 @@ class _BodyState extends State<Body> {
               flex: 4,
               child: ListView(
                 children: [
-                  Card(
-                    shadowColor: Colors.black87,
-                    elevation: 4,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            flex: 1,
-                            child: Image.network(
-                              'https://i.pinimg.com/236x/94/ec/e7/94ece7f1db85990fa144d79533c673bb.jpg',
-                              height: 150.0,
-                              width: 100.0,
-                              scale: 1,
-                            )),
-                        Expanded(
-                            flex: 2,
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Movie title",
-                                    style: kMovieTitlestyle,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Subtitle",
-                                    style: kMovieTypeStyle,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 10.0),
-                                    child: Container(
-                                      width: 120.0,
-                                      height: 30.0,
-                                      decoration: BoxDecoration(
-                                        color: Colors.blue,
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "rating",
-                                          style: KmovieratingStyle,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ))
-                      ],
-                    ),
-                  ),
+                  MovieCardView(),
+                  MovieCardView(),
+                  MovieCardView(),
+                  MovieCardView(),
+                  MovieCardView(),
+                  MovieCardView(),
                 ],
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MovieCardView extends StatelessWidget {
+  const MovieCardView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shadowColor: Colors.black87,
+      elevation: 4,
+      child: Row(
+        children: [
+          Expanded(
+              flex: 1,
+              child: Image.network(
+                'https://i.pinimg.com/236x/94/ec/e7/94ece7f1db85990fa144d79533c673bb.jpg',
+                height: 150.0,
+                width: 100.0,
+                scale: 1,
+              )),
+          Expanded(
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Movie title",
+                      style: kMovieTitlestyle,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Subtitle",
+                      style: kMovieTypeStyle,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      child: Container(
+                        width: 120.0,
+                        height: 30.0,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "rating",
+                            style: KmovieratingStyle,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+        ],
       ),
     );
   }
