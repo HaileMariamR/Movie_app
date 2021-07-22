@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utilities/constants.dart';
+import '../services/Networking.dart';
+
+final String apikey = "k_zs214rb2";
 
 class Homepage extends StatelessWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -29,6 +32,13 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final myController = TextEditingController();
+
+  String? movieImageUrl = "";
+  String? movieTitle = "";
+  String? movieType = "";
+  String? Rating = "";
+  List results = [];
+  List<String> imDb = [];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,8 +56,30 @@ class _BodyState extends State<Body> {
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
                     suffixIcon: GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         print(myController.text);
+                        var moviedata = GetMovieDta(
+                            url:
+                                "https://imdb-api.com/en/API/SearchMovie/k_qn7996fq/Inception%202010");
+                        await moviedata.getData().then((value) {
+                          setState(() {
+                            results = value['results'];
+                          });
+                        });
+
+                        for (var item in results) {
+                          var getrating = GetMovieDta(
+                              url:
+                                  "https://imdb-api.com/en/API/Ratings/k_zs214rb2/${item['id']}");
+                          await getrating.getData().then((value) {
+                            setState(() {
+                              if (!(value['imDb'] == null)) {
+                                imDb.add(value['imDb'].toString());
+                              }
+                              imDb.add("0.0");
+                            });
+                          });
+                        }
                       },
                       child: Icon(
                         Icons.search,
@@ -59,87 +91,81 @@ class _BodyState extends State<Body> {
             ),
             Expanded(
               flex: 4,
-              child: ListView(
-                children: [
-                  MovieCardView(),
-                  MovieCardView(),
-                  MovieCardView(),
-                  MovieCardView(),
-                  MovieCardView(),
-                  MovieCardView(),
-                ],
-              ),
+              child: ListView(children: allMovies(results.length)),
             )
           ],
         ),
       ),
     );
   }
-}
 
-class MovieCardView extends StatelessWidget {
-  const MovieCardView({
-    Key? key,
-  }) : super(key: key);
+  List<Widget> allMovies(int numberofmovies) {
+    List<Widget> allmovies = [];
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shadowColor: Colors.black87,
-      elevation: 4,
-      child: Row(
-        children: [
-          Expanded(
-              flex: 1,
-              child: Image.network(
-                'https://i.pinimg.com/236x/94/ec/e7/94ece7f1db85990fa144d79533c673bb.jpg',
-                height: 150.0,
-                width: 100.0,
-                scale: 1,
-              )),
-          Expanded(
-              flex: 2,
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Movie title",
-                      style: kMovieTitlestyle,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Subtitle",
-                      style: kMovieTypeStyle,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                      child: Container(
-                        width: 120.0,
-                        height: 30.0,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "rating",
-                            style: KmovieratingStyle,
+    int i = 0;
+
+    while (i < numberofmovies) {
+      Card movie = Card(
+        shadowColor: Colors.black87,
+        elevation: 4,
+        child: Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: Image.network(
+                  '${results[i]['image']}',
+                  height: 150.0,
+                  width: 100.0,
+                  scale: 1,
+                )),
+            Expanded(
+                flex: 2,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${results[i]['title']}",
+                        style: kMovieTitlestyle,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "${results[i]['description']}",
+                        style: kMovieTypeStyle,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: Container(
+                          width: 120.0,
+                          height: 30.0,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${imDb[i]} IMDB",
+                              style: KmovieratingStyle,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
+                    ],
+                  ),
+                ))
+          ],
+        ),
+      );
+      i++;
+      allmovies.add(movie);
+    }
+
+    return allmovies;
   }
 }
